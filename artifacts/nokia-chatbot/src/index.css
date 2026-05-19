@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-card-border: hsl(var(--card-border));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-popover-border: hsl(var(--popover-border));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary-border: var(--primary-border);
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-secondary-border: var(--secondary-border);
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-muted-border: var(--muted-border);
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-accent-border: var(--accent-border);
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-destructive-border: var(--destructive-border);
+
+  --font-sans: 'VT323', monospace;
+  --font-serif: 'VT323', monospace;
+  --font-mono: 'VT323', monospace;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --background: 220 10% 90%;
+  --foreground: 240 10% 10%;
+  
+  --border: 240 20% 10%;
+  --input: 240 20% 10%;
+  --ring: 110 50% 50%;
+
+  --card: 220 10% 90%;
+  --card-foreground: 240 10% 10%;
+  --card-border: 240 20% 10%;
+
+  --popover: 220 10% 90%;
+  --popover-foreground: 240 10% 10%;
+  --popover-border: 240 20% 10%;
+
+  --primary: 240 20% 10%;
+  --primary-foreground: 80 50% 50%;
+  
+  --secondary: 220 10% 80%;
+  --secondary-foreground: 240 20% 10%;
+
+  --muted: 220 10% 80%;
+  --muted-foreground: 240 5% 40%;
+
+  --accent: 220 10% 80%;
+  --accent-foreground: 240 20% 10%;
+
+  --destructive: 0 80% 50%;
+  --destructive-foreground: 0 0% 100%;
+
+  --radius: 0rem;
+  
+  --nokia-body: #1a1a2e;
+  --nokia-lcd-bg: #8bac0f;
+  --nokia-lcd-text: #1a4a1a;
+  --nokia-key-bg: #2a2a3e;
+  --nokia-key-text: #e0e0e0;
+}
+
+.dark {
+  --background: 240 20% 5%;
+  --foreground: 220 10% 90%;
+  
+  --border: 240 20% 20%;
+  --input: 240 20% 20%;
+  --ring: 110 50% 50%;
+
+  --card: 240 20% 10%;
+  --card-foreground: 220 10% 90%;
+  --card-border: 240 20% 20%;
+
+  --popover: 240 20% 10%;
+  --popover-foreground: 220 10% 90%;
+  --popover-border: 240 20% 20%;
+
+  --primary: 80 50% 50%;
+  --primary-foreground: 240 20% 10%;
+  
+  --secondary: 240 20% 15%;
+  --secondary-foreground: 220 10% 90%;
+
+  --muted: 240 20% 15%;
+  --muted-foreground: 240 5% 60%;
+
+  --accent: 240 20% 15%;
+  --accent-foreground: 220 10% 90%;
+
+  --destructive: 0 80% 50%;
+  --destructive-foreground: 0 0% 100%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+.lcd-scanlines {
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0),
+    rgba(255,255,255,0) 50%,
+    rgba(0,0,0,0.1) 50%,
+    rgba(0,0,0,0.1)
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+}
+
+.lcd-shadow {
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+}
+
+.lcd-text-shadow {
+  text-shadow: 1px 1px 0px rgba(26, 74, 26, 0.2);
+}
+
+.nokia-button {
+  background: linear-gradient(to bottom, #3a3a4e, #1a1a2e);
+  box-shadow: 0 4px 0 #0a0a1e, 0 5px 5px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+  border: 1px solid #0a0a1e;
+}
+
+.nokia-button:active {
+  box-shadow: 0 0px 0 #0a0a1e, 0 1px 1px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+  transform: translateY(4px);
+}
+
+.nokia-dpad {
+  background: linear-gradient(to bottom, #d0d0d0, #909090);
+  box-shadow: 0 4px 0 #606060, 0 5px 5px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.5);
+  border: 1px solid #606060;
+}
+
+.nokia-dpad:active {
+  box-shadow: 0 0px 0 #606060, 0 1px 1px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+  transform: translateY(4px);
+}

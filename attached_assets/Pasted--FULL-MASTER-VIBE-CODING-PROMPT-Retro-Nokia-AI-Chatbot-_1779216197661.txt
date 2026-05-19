@@ -1,0 +1,220 @@
+📟 FULL MASTER VIBE CODING PROMPT
+Retro Nokia AI Chatbot App (Real-Time Conversational AI)
+Build a hyper-realistic mobile-first web app that recreates the exact experience of using an old Nokia keypad phone from the early 2000s — but powered by a modern real-time AI chatbot.
+The app should feel like:
+“A real Nokia phone with ChatGPT secretly installed inside it.”
+The UI, interactions, sounds, typography, and animations must feel authentically retro, while the AI intelligence remains modern and fully conversational.
+The phone design should closely match classic Nokia devices like:
+Nokia 1100
+Nokia 3310
+Nokia 3510
+Reference style:
+monochrome LCD screen
+chunky keypad
+physical plastic phone body
+pixel fonts
+tiny UI
+old mobile OS aesthetics
+🎨 APP DESIGN & VISUAL STYLE
+Main Visual Goal
+The app should look almost indistinguishable from a real Nokia phone.
+Everything must feel:
+tactile
+nostalgic
+slightly low-resolution
+minimal
+hardware-inspired
+Avoid modern app aesthetics completely.
+DO NOT use:
+glassmorphism
+gradients
+rounded modern chat bubbles
+iOS/Android styling
+modern messenger UI
+📱 PHONE HARDWARE UI
+Render the full phone body on screen.
+Include:
+realistic plastic texture
+curved edges
+raised keypad buttons
+shadows between keys
+monochrome LCD screen
+realistic button spacing
+old-school proportions
+The phone should occupy most of the screen vertically like a real handheld device.
+🖥️ LCD SCREEN DESIGN
+Create a realistic Nokia-style LCD display.
+LCD Features
+green monochrome screen
+dark green text
+pixelated rendering
+low refresh-rate feel
+slight LCD ghosting
+scanline texture
+tiny bitmap UI
+Include:
+signal bars
+battery bars
+network label
+time
+softkey labels
+blinking cursor
+🔤 FONT & TYPOGRAPHY
+Typography is EXTREMELY IMPORTANT.
+Use:
+Nokia-style bitmap font
+pixel font
+monochrome LCD typography
+blocky characters
+compressed spacing
+Text should:
+feel low-resolution
+slightly aliased
+authentic to 2000s phones
+Avoid:
+smooth anti-aliased fonts
+modern typography
+clean UI fonts
+🤖 AI CHATBOT SYSTEM
+The chatbot must be a REAL conversational AI.
+DO NOT:
+use scripted replies
+use predefined responses
+use fake chatbot logic
+simulate intelligence
+Use:
+OpenAI API
+streaming responses
+contextual memory
+real-time AI generation
+The chatbot should:
+understand context
+answer intelligently
+maintain conversation flow
+support long conversations
+behave naturally like ChatGPT
+The retro effect must come ONLY from:
+visuals
+keypad interaction
+sounds
+typography
+animations
+NOT from limiting the AI intelligence.
+💬 CHAT INTERFACE
+The chat interface should resemble:
+old SMS inboxes
+Nokia message threads
+plain LCD text rendering
+Messages should appear:
+line-by-line
+vertically stacked
+minimal and compact
+NO:
+rounded message bubbles
+gradients
+modern messaging design
+The UI should feel like:
+navigating messages on a real Nokia OS
+⌨️ T9 KEYPAD INPUT SYSTEM
+The keypad must function exactly like classic Nokia phones.
+Key Mapping
+1 → symbols
+2 → abc
+3 → def
+4 → ghi
+5 → jkl
+6 → mno
+7 → pqrs
+8 → tuv
+9 → wxyz
+→ special characters
+0 → space
+→ mode switch
+🧠 T9 INPUT LOGIC
+Implement authentic multi-tap typing behavior.
+Example:
+press “2” once → a
+press “2” twice quickly → b
+press “2” three times → c
+Behavior requirements:
+repeated presses cycle letters
+timeout confirms selected letter
+blinking cursor while typing
+predictive typing suggestions
+character preview popup
+old-school text entry flow
+Typing should genuinely feel nostalgic.
+🔊 SOUND DESIGN
+Add authentic retro phone sounds.
+Include:
+keypad click sounds
+Nokia-style beeps
+message sent tone
+startup sound
+subtle LCD hum
+menu navigation sounds
+Sound design should feel:
+soft
+tiny
+electronic
+early-2000s
+✨ ANIMATIONS & EFFECTS
+Use subtle retro animations only.
+Include:
+LCD flicker
+slow redraw effect
+blinking cursor
+pixel transitions
+low FPS menu movement
+screen ghosting
+scanline overlay
+Avoid:
+smooth iOS animations
+flashy transitions
+modern motion design
+📲 USER EXPERIENCE
+The user should genuinely feel:
+like they are holding a Nokia phone
+typing with real T9 controls
+chatting through a retro mobile OS
+using futuristic AI inside ancient hardware
+The immersion should be extremely convincing.
+⚙️ TECH STACK
+Frontend:
+React
+TailwindCSS
+Framer Motion
+Backend:
+Node.js / Express
+AI:
+OpenAI API integration
+streaming responses
+contextual conversation memory
+Optional:
+local storage chat history
+phone theme switching
+offline fake boot sequence
+🎮 OPTIONAL EXTRA FEATURES
+Optional additions:
+Snake game
+custom phone themes
+different Nokia models
+vibration simulation
+fake incoming calls
+retro boot animation
+infrared transfer animation
+classic ringtone selector
+🎯 FINAL PRODUCT GOAL
+Create a highly immersive retro Nokia phone simulator where:
+the interface feels completely authentic to 2002
+the typing system feels exactly like T9
+the visuals feel like real Nokia hardware
+but the intelligence is powered by modern AI
+The final result should feel:
+nostalgic
+tactile
+minimal
+believable
+viral-worthy for TikTok/Reels/Instagram
+The experience should make users say:
+“How is there a real AI chatbot inside a Nokia phone?” 📟🔥

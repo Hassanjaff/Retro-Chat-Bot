@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Nokia AI Chatbot"
+version = "1.0.0"
+id = "artifacts/nokia-chatbot"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22356
+
+[services.development]
+run = "pnpm --filter @workspace/nokia-chatbot run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/nokia-chatbot", "run", "build" ]
+publicDir = "artifacts/nokia-chatbot/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22356"
+BASE_PATH = "/"
