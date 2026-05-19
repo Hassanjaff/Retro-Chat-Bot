@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "9AT-qVsvXfZhB2M1iGtgz"
+uri = "file://screenshots/nokia-phone-final.jpg"
+type = "image"
+title = "Nokia 1100 AI Chatbot - Final Design"

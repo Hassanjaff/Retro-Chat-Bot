@@ -4,39 +4,61 @@ import { Message } from "../hooks/useChat";
 interface ChatMessagesProps {
   messages: Message[];
   isTyping: boolean;
+  cursorVisible: boolean;
 }
 
-export default function ChatMessages({ messages, isTyping }: ChatMessagesProps) {
+export default function ChatMessages({
+  messages,
+  isTyping,
+  cursorVisible,
+}: ChatMessagesProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.scrollTop = containerRef.current.scrollHeight;
-    }
+    endRef.current?.scrollIntoView({ behavior: "auto" });
   }, [messages, isTyping]);
 
+  if (messages.length === 0) {
+    return (
+      <div className="flex-1 flex flex-col items-center justify-center text-center opacity-60 text-[12px]">
+        <div>- Nokia Chat -</div>
+        <div>Ready.</div>
+      </div>
+    );
+  }
+
   return (
-    <div ref={containerRef} className="flex-1 overflow-y-auto overflow-x-hidden flex flex-col gap-2 mb-1 scrollbar-hide">
-      {messages.length === 0 && (
-        <div className="text-center mt-4 opacity-70">
-          - Nokia Chat -<br/>
-          Ready.
-        </div>
-      )}
-      {messages.map((msg, i) => (
-        <div key={msg.id} className="w-full text-left leading-tight break-words whitespace-pre-wrap">
+    <div
+      ref={containerRef}
+      className="flex-1 overflow-y-auto overflow-x-hidden flex flex-col scrollbar-hide"
+    >
+      {messages.map((msg) => (
+        <div key={msg.id} className="mb-[2px] leading-[14px]">
           {msg.role === "user" ? (
-            <span>{"> "}{msg.content}</span>
+            <div className="text-[#1a4a1a]">
+              <span className="opacity-50">&gt; </span>
+              <span>{msg.content}</span>
+            </div>
           ) : (
-            <span>{msg.content}</span>
+            <div className="text-[#1a4a1a] break-words whitespace-pre-wrap">
+              <span>{msg.content}</span>
+              {isTyping && msg.content === messages[messages.length - 1]?.content && (
+                <span className={cursorVisible ? "opacity-100" : "opacity-0"}>_</span>
+              )}
+            </div>
           )}
         </div>
       ))}
-      {isTyping && (
-        <div className="w-full text-left animate-pulse">
-          ...
+
+      {/* Typing indicator while waiting for response */}
+      {isTyping && messages[messages.length - 1]?.role === "user" && (
+        <div className="mt-[2px] text-[#1a4a1a] opacity-50">
+          <span className="lcd-blink">Receiving...</span>
         </div>
       )}
+
+      <div ref={endRef} className="h-[2px]" />
     </div>
   );
 }
