@@ -97,39 +97,23 @@ export default function NokiaPhone() {
             Menu
           </button>
 
-          {/* D-pad cluster */}
+          {/* D-pad cluster — all black, no arrows */}
           <div className="relative w-[56px] h-[56px]">
             {/* Up */}
-            <button className="absolute top-0 left-1/2 -translate-x-1/2 w-[20px] h-[16px] nokia-dpad-dir rounded-t-md flex items-center justify-center">
-              <svg width="10" height="8" viewBox="0 0 10 8" fill="none" stroke="#777" strokeWidth="1.5">
-                <path d="M1 6 L5 1 L9 6" />
-              </svg>
-            </button>
+            <button className="absolute top-0 left-1/2 -translate-x-1/2 w-[20px] h-[16px] nokia-dpad-black rounded-t-[5px]" />
             {/* Left */}
-            <button className="absolute left-0 top-1/2 -translate-y-1/2 w-[16px] h-[20px] nokia-dpad-dir rounded-l-md flex items-center justify-center">
-              <svg width="8" height="10" viewBox="0 0 8 10" fill="none" stroke="#777" strokeWidth="1.5">
-                <path d="M6 1 L2 5 L6 9" />
-              </svg>
-            </button>
-            {/* Center SEND — black round button */}
+            <button className="absolute left-0 top-1/2 -translate-y-1/2 w-[16px] h-[20px] nokia-dpad-black rounded-l-[5px]" />
+            {/* Center SEND — black rounded-square */}
             <button
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[30px] h-[30px] nokia-dpad-center rounded-full flex items-center justify-center"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 nokia-dpad-send flex items-center justify-center"
               onClick={handleSend}
             >
-              <span className="text-[8px] text-[#ccc] font-bold tracking-[0.5px] scale-90">SEND</span>
+              <span className="text-[7px] text-[#aaa] font-bold tracking-[0.5px]">SEND</span>
             </button>
             {/* Right */}
-            <button className="absolute right-0 top-1/2 -translate-y-1/2 w-[16px] h-[20px] nokia-dpad-dir rounded-r-md flex items-center justify-center">
-              <svg width="8" height="10" viewBox="0 0 8 10" fill="none" stroke="#777" strokeWidth="1.5">
-                <path d="M2 1 L6 5 L2 9" />
-              </svg>
-            </button>
+            <button className="absolute right-0 top-1/2 -translate-y-1/2 w-[16px] h-[20px] nokia-dpad-black rounded-r-[5px]" />
             {/* Down */}
-            <button className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[20px] h-[16px] nokia-dpad-dir rounded-b-md flex items-center justify-center">
-              <svg width="10" height="8" viewBox="0 0 10 8" fill="none" stroke="#777" strokeWidth="1.5">
-                <path d="M1 1 L5 6 L9 1" />
-              </svg>
-            </button>
+            <button className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[20px] h-[16px] nokia-dpad-black rounded-b-[5px]" />
           </div>
 
           <button
