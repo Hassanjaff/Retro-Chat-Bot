@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback } from "react";
 import { useSound } from "./useSound";
 
 type T9Mode = "Abc" | "abc" | "ABC" | "123";
@@ -16,109 +16,149 @@ const T9_MAP: Record<string, string[]> = {
   "0": [" ", "0"],
 };
 
+const TIMEOUT_MS = 800;
+
 export function useT9() {
   const [text, setText] = useState("");
   const [mode, setMode] = useState<T9Mode>("Abc");
   const [composingChar, setComposingChar] = useState<string | null>(null);
+
   const { playClick } = useSound();
 
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const lastKeyRef = useRef<string | null>(null);
-  const cycleIndexRef = useRef<number>(0);
+  // All mutable state lives in a single ref — no stale closures ever
+  const stateRef = useRef({
+    text: "",
+    mode: "Abc" as T9Mode,
+    composingChar: null as string | null,
+    lastKey: null as string | null,
+    cycleIndex: 0,
+    timer: null as ReturnType<typeof setTimeout> | null,
+  });
 
-  const confirmCurrentChar = useCallback(() => {
-    if (composingChar !== null) {
-      setText((prev) => prev + composingChar);
+  // Keep ref in sync with state (for callbacks that fire asynchronously)
+  stateRef.current.text = text;
+  stateRef.current.mode = mode;
+  stateRef.current.composingChar = composingChar;
+
+  const flush = useCallback(() => {
+    const s = stateRef.current;
+    if (s.composingChar !== null) {
+      const nextText = s.text + s.composingChar;
+      s.text = nextText;
+      setText(nextText);
+      s.composingChar = null;
       setComposingChar(null);
     }
-    lastKeyRef.current = null;
-    cycleIndexRef.current = 0;
-  }, [composingChar]);
+    s.lastKey = null;
+    s.cycleIndex = 0;
+  }, []);
 
   const handleKeyPress = useCallback(
     (key: string) => {
       playClick();
+      const s = stateRef.current;
 
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
+      // Cancel any pending timeout
+      if (s.timer) {
+        clearTimeout(s.timer);
+        s.timer = null;
       }
 
       if (key === "#") {
-        confirmCurrentChar();
-        setMode((prev) => {
-          if (prev === "Abc") return "abc";
-          if (prev === "abc") return "ABC";
-          if (prev === "ABC") return "123";
-          return "Abc";
-        });
+        flush();
+        const nextMode: T9Mode =
+          s.mode === "Abc" ? "abc" : s.mode === "abc" ? "ABC" : s.mode === "ABC" ? "123" : "Abc";
+        s.mode = nextMode;
+        setMode(nextMode);
         return;
       }
 
       if (key === "*") {
-        confirmCurrentChar();
-        setText((prev) => prev + "*");
+        flush();
+        const nextText = s.text + "*";
+        s.text = nextText;
+        setText(nextText);
         return;
       }
 
-      if (mode === "123") {
-        confirmCurrentChar();
-        setText((prev) => prev + key);
+      if (s.mode === "123") {
+        flush();
+        const nextText = s.text + key;
+        s.text = nextText;
+        setText(nextText);
         return;
       }
 
       const chars = T9_MAP[key];
       if (!chars) return;
 
-      if (key === lastKeyRef.current) {
-        cycleIndexRef.current = (cycleIndexRef.current + 1) % chars.length;
+      if (key === s.lastKey) {
+        // Same key pressed rapidly — cycle to next character
+        s.cycleIndex = (s.cycleIndex + 1) % chars.length;
       } else {
-        confirmCurrentChar();
-        lastKeyRef.current = key;
-        cycleIndexRef.current = 0;
+        // Different key — finalize previous character, start new one
+        flush();
+        s.lastKey = key;
+        s.cycleIndex = 0;
       }
 
-      let char = chars[cycleIndexRef.current];
-      
-      if (mode === "ABC") {
+      let char = chars[s.cycleIndex];
+
+      if (s.mode === "ABC") {
         char = char.toUpperCase();
-      } else if (mode === "Abc") {
-        if (text.length === 0 || text.endsWith(". ") || text.endsWith("! ") || text.endsWith("? ")) {
-            char = char.toUpperCase();
-        } else {
-            char = char.toLowerCase();
+      } else if (s.mode === "Abc") {
+        const t = s.text;
+        if (t.length === 0 || t.endsWith(". ") || t.endsWith("! ") || t.endsWith("? ")) {
+          char = char.toUpperCase();
         }
       }
 
+      s.composingChar = char;
       setComposingChar(char);
 
-      timerRef.current = setTimeout(() => {
-        confirmCurrentChar();
-      }, 1000);
+      // Start timeout to auto-confirm this character
+      s.timer = setTimeout(() => {
+        flush();
+      }, TIMEOUT_MS);
     },
-    [mode, playClick, confirmCurrentChar, text]
+    [flush, playClick]
   );
 
   const handleBackspace = useCallback(() => {
     playClick();
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
+    const s = stateRef.current;
+
+    if (s.timer) {
+      clearTimeout(s.timer);
+      s.timer = null;
     }
-    
-    if (composingChar !== null) {
+
+    if (s.composingChar !== null) {
+      // Delete the currently composing character
+      s.composingChar = null;
       setComposingChar(null);
-      lastKeyRef.current = null;
-      cycleIndexRef.current = 0;
+      s.lastKey = null;
+      s.cycleIndex = 0;
     } else {
-      setText((prev) => prev.slice(0, -1));
+      // Delete last confirmed character
+      const nextText = s.text.slice(0, -1);
+      s.text = nextText;
+      setText(nextText);
     }
-  }, [composingChar, playClick]);
+  }, [playClick]);
 
   const clear = useCallback(() => {
-    if (timerRef.current) clearTimeout(timerRef.current);
+    const s = stateRef.current;
+    if (s.timer) {
+      clearTimeout(s.timer);
+      s.timer = null;
+    }
+    s.text = "";
+    s.composingChar = null;
+    s.lastKey = null;
+    s.cycleIndex = 0;
     setText("");
     setComposingChar(null);
-    lastKeyRef.current = null;
-    cycleIndexRef.current = 0;
   }, []);
 
   return {
@@ -129,6 +169,6 @@ export function useT9() {
     handleKeyPress,
     handleBackspace,
     clear,
-    confirmCurrentChar
+    confirmCurrentChar: flush,
   };
 }

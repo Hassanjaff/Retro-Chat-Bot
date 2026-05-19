@@ -34,7 +34,7 @@ export default function Keypad({ onKeyPress, onClear, onSend }: KeypadProps) {
       {KEYS.map((k) => (
         <button
           key={k.id}
-          className="nokia-key relative flex flex-col items-center justify-center rounded-[10px] active:translate-y-[2px] active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)] transition-transform duration-75"
+          className="nokia-key relative flex flex-col items-center justify-center rounded-[10px] transition-transform duration-75"
           onClick={() => press(k.id, onKeyPress)}
         >
           <span className="text-[#e0e0e0] font-bold text-[16px] leading-none mt-[2px]">
