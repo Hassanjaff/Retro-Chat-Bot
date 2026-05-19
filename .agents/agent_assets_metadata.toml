@@ -12,3 +12,9 @@ id = "fzwrw3lfzf9AnEoxsm_JK"
 uri = "file://screenshots/nokia-phone-v3.jpg"
 type = "image"
 title = "Nokia AI Chatbot — 340x720 with black SEND button"
+
+[[outputs]]
+id = "E7gHYjHKj0J4Ji-u0Zpvn"
+uri = "file://screenshots/nokia-chatbot-final.jpg"
+type = "image"
+title = "Nokia AI Chatbot — Final Design with Boot Animation"

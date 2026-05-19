@@ -1,5 +1,7 @@
+import { useState, useCallback, useEffect } from "react";
 import LcdScreen from "@/components/LcdScreen";
 import Keypad from "@/components/Keypad";
+import BootSequence from "@/components/BootSequence";
 import { useChat } from "@/hooks/useChat";
 import { useT9 } from "@/hooks/useT9";
 
@@ -15,6 +17,15 @@ export default function NokiaPhone() {
     confirmCurrentChar,
   } = useT9();
 
+  const [booted, setBooted] = useState(false);
+  const [screenLit, setScreenLit] = useState(false);
+
+  const handleBootComplete = useCallback(() => {
+    setBooted(true);
+    // LCD warm-up glow after boot
+    setTimeout(() => setScreenLit(true), 100);
+  }, []);
+
   const handleSend = () => {
     confirmCurrentChar();
     if (text.trim()) {
@@ -28,8 +39,20 @@ export default function NokiaPhone() {
       className="min-h-[100dvh] w-full flex items-center justify-center bg-neutral-300 overflow-hidden select-none"
       style={{ fontFamily: "'VT323', monospace" }}
     >
+      {/* Ambient backdrop glow behind phone */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="w-[360px] h-[740px] rounded-[28px] bg-gradient-to-b from-[#8bac0f]/[0.04] to-transparent blur-3xl" />
+      </div>
+
       {/* Nokia Body — 340 x 720, fits vertical mobile */}
       <div className="relative nokia-1100-body">
+        {/* Metallic side bevel strip */}
+        <div className="absolute top-[40px] bottom-[20px] -left-[3px] w-[4px] nokia-side-bevel rounded-l-[4px]" />
+        <div className="absolute top-[40px] bottom-[20px] -right-[3px] w-[4px] nokia-side-bevel rounded-r-[4px]" />
+
+        {/* Side button (power / volume) */}
+        <div className="absolute top-[180px] -left-[4px] w-[3px] h-[28px] nokia-side-btn rounded-l-[2px]" />
+
         {/* Speaker grille */}
         <div className="absolute top-[8px] left-1/2 -translate-x-1/2 w-28 h-[7px] rounded-full bg-[#2a2a2a] overflow-hidden flex items-center justify-center gap-[3px] nokia-speaker">
           {Array.from({ length: 10 }).map((_, i) => (
@@ -42,17 +65,26 @@ export default function NokiaPhone() {
           NOKIA
         </div>
 
+        {/* Power LED — pulses when AI is typing */}
+        <div className="absolute top-[22px] right-[20px] w-[5px] h-[5px] rounded-full">
+          <div className={`w-full h-full rounded-full ${isTyping ? 'nokia-led-pulse' : 'bg-[#333]'}`} />
+        </div>
+
         {/* Screen housing — generous but not overwhelming */}
-        <div className="absolute top-[40px] left-[14px] right-[14px] h-[400px] bg-[#0d0d0d] rounded-[14px] nokia-screen-housing">
-          <div className="absolute top-[10px] left-[12px] right-[12px] bottom-[10px]">
-            <LcdScreen
-              messages={messages}
-              isTyping={isTyping}
-              t9Text={text}
-              t9ComposingChar={composingChar}
-              t9Mode={mode}
-              isReady={isReady}
-            />
+        <div className="absolute top-[40px] left-[14px] right-[14px] h-[400px] bg-[#0d0d0d] rounded-[14px] nokia-screen-housing overflow-hidden">
+          <div className={`absolute top-[10px] left-[12px] right-[12px] bottom-[10px] ${screenLit ? 'lcd-warmup' : ''}`}>
+            {!booted ? (
+              <BootSequence onComplete={handleBootComplete} />
+            ) : (
+              <LcdScreen
+                messages={messages}
+                isTyping={isTyping}
+                t9Text={text}
+                t9ComposingChar={composingChar}
+                t9Mode={mode}
+                isReady={isReady}
+              />
+            )}
           </div>
         </div>
 

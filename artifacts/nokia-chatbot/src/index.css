@@ -120,9 +120,30 @@
   box-shadow:
     0 35px 80px rgba(0,0,0,0.55),
     inset 0 1px 1px rgba(255,255,255,0.08),
-    inset 0 -4px 8px rgba(0,0,0,0.4);
+    inset 0 -4px 8px rgba(0,0,0,0.4),
+    /* Subtle ambient Nokia-green LED glow from screen bleed */
+    0 0 40px rgba(139, 172, 15, 0.04),
+    /* 3D metallic rim */
+    0 0 0 1px rgba(255,255,255,0.04);
   border: 2px solid #222;
   position: relative;
+}
+
+/* Metallic side bevel strips */
+.nokia-side-bevel {
+  background: linear-gradient(90deg,
+    rgba(100,100,100,0.3) 0%,
+    rgba(60,60,60,0.1) 40%,
+    rgba(40,40,40,0) 100%
+  );
+}
+
+/* Side power/volume button */
+.nokia-side-btn {
+  background: linear-gradient(180deg, #555 0%, #333 100%);
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,0.1),
+    -1px 0 2px rgba(0,0,0,0.3);
 }
 
 /* Screen housing */
@@ -313,4 +334,88 @@
 }
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+/* ======================== */
+/*   BOOT SEQUENCE ANIMS    */
+/* ======================== */
+
+@keyframes boot-letter-pop {
+  0% { opacity: 0; transform: translateY(12px) scale(0.85); }
+  60% { opacity: 1; transform: translateY(-2px) scale(1.02); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.boot-letter-pop {
+  animation: boot-letter-pop 400ms ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes boot-tagline-fade {
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 0.55; transform: translateY(0); }
+}
+
+.boot-tagline-fade {
+  animation: boot-tagline-fade 600ms ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes boot-bar-rise {
+  0% { transform: scaleY(0); opacity: 0; }
+  100% { transform: scaleY(1); opacity: 1; }
+}
+
+.boot-bar-rise {
+  animation: boot-bar-rise 400ms ease-out forwards;
+  transform: scaleY(0);
+}
+
+@keyframes boot-batt-fill {
+  0% { width: 0; }
+  100% { width: calc(100% - 2px); }
+}
+
+.boot-batt-fill {
+  animation: boot-batt-fill 800ms ease-out forwards;
+  width: 0;
+}
+
+/* ======================== */
+/*   POWER LED              */
+/* ======================== */
+
+@keyframes led-pulse {
+  0%, 100% { background: #1a4a1a; box-shadow: 0 0 4px #1a4a1a, 0 0 8px rgba(26,74,26,0.4); }
+  50% { background: #2a6a2a; box-shadow: 0 0 6px #2a6a2a, 0 0 12px rgba(42,106,42,0.6); }
+}
+
+.nokia-led-pulse {
+  animation: led-pulse 800ms ease-in-out infinite;
+}
+
+/* ======================== */
+/*   SCREEN WARM-UP GLOW    */
+/* ======================== */
+
+@keyframes screen-warmup {
+  0% { filter: brightness(0.3); }
+  100% { filter: brightness(1); }
+}
+
+.lcd-warmup {
+  animation: screen-warmup 400ms ease-out forwards;
+}
+
+/* ======================== */
+/*   MESSAGE ENTRY BOUNCE   */
+/* ======================== */
+
+@keyframes msg-pop {
+  0% { opacity: 0; transform: translateY(4px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.msg-pop-in {
+  animation: msg-pop 200ms ease-out forwards;
 }

@@ -21,9 +21,9 @@ export default function ChatMessages({
 
   if (messages.length === 0) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center text-center opacity-60 text-[16px]">
-        <div>- Nokia Chat -</div>
-        <div>Ready.</div>
+      <div className="flex-1 flex flex-col items-center justify-center text-center text-[16px]">
+        <div className="opacity-70">- Nokia Chat -</div>
+        <div className="opacity-50 text-[14px] mt-[2px]">Ready.</div>
       </div>
     );
   }
@@ -34,7 +34,7 @@ export default function ChatMessages({
       className="flex-1 overflow-y-auto overflow-x-hidden flex flex-col scrollbar-hide"
     >
       {messages.map((msg) => (
-        <div key={msg.id} className="mb-[3px] leading-[20px]">
+        <div key={msg.id} className="mb-[3px] leading-[20px] msg-pop-in">
           {msg.role === "user" ? (
             <div className="text-[#1a4a1a]">
               <span className="opacity-50">&gt; </span>
