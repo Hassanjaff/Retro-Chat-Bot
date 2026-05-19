@@ -21,7 +21,7 @@ export default function ChatMessages({
 
   if (messages.length === 0) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center text-center opacity-60 text-[12px]">
+      <div className="flex-1 flex flex-col items-center justify-center text-center opacity-60 text-[16px]">
         <div>- Nokia Chat -</div>
         <div>Ready.</div>
       </div>
@@ -34,7 +34,7 @@ export default function ChatMessages({
       className="flex-1 overflow-y-auto overflow-x-hidden flex flex-col scrollbar-hide"
     >
       {messages.map((msg) => (
-        <div key={msg.id} className="mb-[2px] leading-[14px]">
+        <div key={msg.id} className="mb-[3px] leading-[20px]">
           {msg.role === "user" ? (
             <div className="text-[#1a4a1a]">
               <span className="opacity-50">&gt; </span>
@@ -43,7 +43,7 @@ export default function ChatMessages({
           ) : (
             <div className="text-[#1a4a1a] break-words whitespace-pre-wrap">
               <span>{msg.content}</span>
-              {isTyping && msg.content === messages[messages.length - 1]?.content && (
+              {isTyping && msg.id === messages[messages.length - 1]?.id && (
                 <span className={cursorVisible ? "opacity-100" : "opacity-0"}>_</span>
               )}
             </div>
@@ -51,14 +51,13 @@ export default function ChatMessages({
         </div>
       ))}
 
-      {/* Typing indicator while waiting for response */}
       {isTyping && messages[messages.length - 1]?.role === "user" && (
-        <div className="mt-[2px] text-[#1a4a1a] opacity-50">
+        <div className="mt-[3px] text-[#1a4a1a] opacity-50">
           <span className="lcd-blink">Receiving...</span>
         </div>
       )}
 
-      <div ref={endRef} className="h-[2px]" />
+      <div ref={endRef} className="h-[4px]" />
     </div>
   );
 }

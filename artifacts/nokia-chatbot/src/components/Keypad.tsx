@@ -30,17 +30,17 @@ export default function Keypad({ onKeyPress, onClear, onSend }: KeypadProps) {
   };
 
   return (
-    <div className="grid grid-cols-3 gap-x-[10px] gap-y-[6px] w-full h-full">
+    <div className="grid grid-cols-3 gap-x-[14px] gap-y-[8px] w-full h-full">
       {KEYS.map((k) => (
         <button
           key={k.id}
-          className="nokia-key relative flex flex-col items-center justify-center rounded-[10px] transition-transform duration-75"
+          className="nokia-key relative flex flex-col items-center justify-center rounded-[12px] transition-transform duration-75"
           onClick={() => press(k.id, onKeyPress)}
         >
-          <span className="text-[#e0e0e0] font-bold text-[16px] leading-none mt-[2px]">
+          <span className="text-[#e0e0e0] font-bold text-[22px] leading-none mt-[3px]">
             {k.label}
           </span>
-          <span className="text-[#999] text-[8px] leading-none mb-[2px] tracking-[1px] uppercase">
+          <span className="text-[#999] text-[10px] leading-none mb-[3px] tracking-[1px] uppercase">
             {k.sub}
           </span>
         </button>
