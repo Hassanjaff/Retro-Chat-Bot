@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { playNokiaRingtone } from "@/hooks/useSound";
 
 interface BootSequenceProps {
   onComplete: () => void;
@@ -40,7 +41,7 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
   useEffect(() => {
     const timers = [
       setTimeout(() => setStep(1), 300),
-      setTimeout(() => setStep(2), 1100),
+      setTimeout(() => { setStep(2); playNokiaRingtone(); }, 1100),
       setTimeout(() => setStep(3), 2500),
       setTimeout(() => setStep(4), 3800),
       setTimeout(() => setStep(5), 5800),
