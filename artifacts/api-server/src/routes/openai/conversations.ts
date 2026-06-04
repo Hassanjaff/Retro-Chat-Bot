@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, type Request, type Response } from "express";
 import { db, conversations, messages } from "@workspace/db";
 import { eq, asc } from "drizzle-orm";
 import { openai } from "@workspace/integrations-openai-ai-server";
@@ -13,7 +13,7 @@ import {
 
 const router = Router();
 
-router.get("/conversations", async (req, res) => {
+router.get("/conversations", async (req: Request, res: Response) => {
   const rows = await db
     .select()
     .from(conversations)
@@ -27,7 +27,7 @@ router.get("/conversations", async (req, res) => {
   );
 });
 
-router.post("/conversations", async (req, res) => {
+router.post("/conversations", async (req: Request, res: Response) => {
   const parsed = CreateOpenaiConversationBody.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({ error: "Invalid request body" });
@@ -44,7 +44,7 @@ router.post("/conversations", async (req, res) => {
   });
 });
 
-router.get("/conversations/:id", async (req, res) => {
+router.get("/conversations/:id", async (req: Request, res: Response) => {
   const parsed = GetOpenaiConversationParams.safeParse({ id: Number(req.params.id) });
   if (!parsed.success) {
     res.status(400).json({ error: "Invalid id" });
@@ -77,7 +77,7 @@ router.get("/conversations/:id", async (req, res) => {
   });
 });
 
-router.delete("/conversations/:id", async (req, res) => {
+router.delete("/conversations/:id", async (req: Request, res: Response) => {
   const parsed = DeleteOpenaiConversationParams.safeParse({ id: Number(req.params.id) });
   if (!parsed.success) {
     res.status(400).json({ error: "Invalid id" });
@@ -94,7 +94,7 @@ router.delete("/conversations/:id", async (req, res) => {
   res.status(204).end();
 });
 
-router.get("/conversations/:id/messages", async (req, res) => {
+router.get("/conversations/:id/messages", async (req: Request, res: Response) => {
   const parsed = ListOpenaiMessagesParams.safeParse({ id: Number(req.params.id) });
   if (!parsed.success) {
     res.status(400).json({ error: "Invalid id" });
@@ -116,7 +116,7 @@ router.get("/conversations/:id/messages", async (req, res) => {
   );
 });
 
-router.post("/conversations/:id/messages", async (req, res) => {
+router.post("/conversations/:id/messages", async (req: Request, res: Response) => {
   const paramsParsed = SendOpenaiMessageParams.safeParse({ id: Number(req.params.id) });
   const bodyParsed = SendOpenaiMessageBody.safeParse(req.body);
 
@@ -162,7 +162,7 @@ router.post("/conversations/:id/messages", async (req, res) => {
         {
           role: "system",
           content:
-            "You are an AI assistant living inside a retro Nokia phone from 2002. Keep your responses concise and conversational — remember the user is typing on a T9 keypad and reading on a tiny LCD screen. Be helpful, witty, and slightly surprised that such advanced AI exists in this ancient hardware.",
+            "You are an AI assistant living inside a retro Nokia phone from 2002. Keep your responses concise and conversational — remember the user is typing on a T9 keypad and reading on a ti[...]",
         },
         ...chatMessages,
       ],
@@ -186,7 +186,7 @@ router.post("/conversations/:id/messages", async (req, res) => {
     res.write(`data: ${JSON.stringify({ done: true })}\n\n`);
     res.end();
   } catch (err) {
-    req.log.error({ err }, "Error streaming OpenAI response");
+    (req as any).log.error({ err }, "Error streaming OpenAI response");
     res.write(`data: ${JSON.stringify({ error: "AI error" })}\n\n`);
     res.end();
   }
