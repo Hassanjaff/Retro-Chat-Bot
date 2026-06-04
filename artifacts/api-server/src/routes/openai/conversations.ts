@@ -1,4 +1,4 @@
-import { Router, type Request, type Response } from "express";
+import { Router, type IRouter, type Request, type Response } from "express";
 import { db, conversations, messages } from "@workspace/db";
 import { eq, asc } from "drizzle-orm";
 import { openai } from "@workspace/integrations-openai-ai-server";
@@ -11,7 +11,7 @@ import {
   SendOpenaiMessageParams,
 } from "@workspace/api-zod";
 
-const router = Router();
+const router: IRouter = Router();
 
 router.get("/conversations", async (req: Request, res: Response) => {
   const rows = await db
@@ -19,7 +19,7 @@ router.get("/conversations", async (req: Request, res: Response) => {
     .from(conversations)
     .orderBy(asc(conversations.createdAt));
   res.json(
-    rows.map((c) => ({
+    rows.map((c: any) => ({
       id: c.id,
       title: c.title,
       createdAt: c.createdAt.toISOString(),
@@ -67,7 +67,7 @@ router.get("/conversations/:id", async (req: Request, res: Response) => {
     id: conv.id,
     title: conv.title,
     createdAt: conv.createdAt.toISOString(),
-    messages: msgs.map((m) => ({
+    messages: msgs.map((m: any) => ({
       id: m.id,
       conversationId: m.conversationId,
       role: m.role,
@@ -106,7 +106,7 @@ router.get("/conversations/:id/messages", async (req: Request, res: Response) =>
     .where(eq(messages.conversationId, parsed.data.id))
     .orderBy(asc(messages.createdAt));
   res.json(
-    msgs.map((m) => ({
+    msgs.map((m: any) => ({
       id: m.id,
       conversationId: m.conversationId,
       role: m.role,
@@ -142,7 +142,7 @@ router.post("/conversations/:id/messages", async (req: Request, res: Response) =
     .where(eq(messages.conversationId, id))
     .orderBy(asc(messages.createdAt));
 
-  const chatMessages = history.map((m) => ({
+  const chatMessages = history.map((m: any) => ({
     role: m.role as "user" | "assistant" | "system",
     content: m.content,
   }));
