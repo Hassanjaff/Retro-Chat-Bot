@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "pnpm install && pnpm run typecheck && pnpm run build",
+  "buildCommand": "pnpm install && pnpm run typecheck:libs && pnpm run build",
   "installCommand": "pnpm install --frozen-lockfile",
   "outputDirectory": "artifacts/api-server/dist",
   "env": {
